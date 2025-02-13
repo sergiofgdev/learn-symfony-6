@@ -2,17 +2,32 @@
 
 namespace App\Controller;
 
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use function Symfony\Component\String\u;
 
-class VinylController
+class VinylController extends AbstractController
 {
 
     #[Route('/')]
     public function homepage() : Response
     {
-        return new Response("I am Sergio");
+        $tracks = [
+            ['song' => 'Gangs Paradise', 'artist' => 'Coolio'],
+            ['song' => 'Waterfalls', 'artist' => 'TLC'],
+            ['song' => 'Creep', 'artist' => 'Radiohead'],
+            ['song' => 'Kiss from a Rose', 'artist' => 'Seal'],
+            ['song' => 'On bended knee', 'artist' => 'Boyz II Men'],
+            ['song' => 'Fantasy', 'artist' => 'Mariah Carey']
+        ];
+
+//        return new Response("I am Sergio");
+        //extends AbstractController me permite acceder a render() el cual devuelve un Response
+        return $this->render('/vinyl/homepage.html.twig',[
+            'title' => 'Homepage',
+            'tracks' => $tracks
+        ]);
     }
 
     #[Route('/browse/{slug}')]
