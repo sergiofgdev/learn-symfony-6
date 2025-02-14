@@ -11,7 +11,7 @@ class VinylController extends AbstractController
 {
 
     #[Route('/')]
-    public function homepage() : Response
+    public function homepage(): Response
     {
         $tracks = [
             ['song' => 'Gangs Paradise', 'artist' => 'Coolio'],
@@ -24,20 +24,21 @@ class VinylController extends AbstractController
 
 //        return new Response("I am Sergio");
         //extends AbstractController me permite acceder a render() el cual devuelve un Response
-        return $this->render('/vinyl/homepage.html.twig',[
+        return $this->render('/vinyl/homepage.html.twig', [
             'title' => 'Homepage',
             'tracks' => $tracks
         ]);
     }
 
     #[Route('/browse/{slug}')]
-    public function browse(string $slug = null ) : Response
+    public function browse(string $slug = null): Response
     {
-        $title = "All genres";
-        if ($slug) {
-            $title = 'Genre: ' . u(str_replace("-", " ", $slug))->title(true);
-        }
-        return new Response($title);
+        $genre = $slug ? u(str_replace("-", " ", $slug))->title(true) : null;
+
+
+        return $this->render('/vinyl/browse.html.twig', [
+            'genre' => $genre,
+        ]);
     }
 
 }
