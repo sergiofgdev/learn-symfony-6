@@ -12,7 +12,7 @@ class MixRepository
 
 
     public function __construct(
-        private HttpClientInterface $httpClient,
+        private HttpClientInterface $githubContentClient,
         private CacheInterface      $cache,
         #[Autowire('$kernel.debug%')]
         private bool                $isDebug)
@@ -24,7 +24,7 @@ class MixRepository
     {
         return $this->cache->get('mixes_data', function (CacheItemInterface $cacheItem) {
             $cacheItem->expiresAfter($this->isDebug ? 5 : 60);
-            $response = $this->httpClient->request('GET', 'https://raw.githubusercontent.com/SymfonyCasts/vinyl-mixes/refs/heads/main/mixes.json');
+            $response = $this->githubContentClient->request('GET', '/SymfonyCasts/vinyl-mixes/refs/heads/main/mixes.json');
             return $response->toArray();
         });
 
