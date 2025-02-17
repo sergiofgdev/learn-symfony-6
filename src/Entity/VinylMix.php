@@ -35,6 +35,9 @@ class VinylMix
     #[ORM\Column]
     private int $votes = 0;
 
+    #[ORM\Column(length: 255)]
+    private ?string $genre = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -96,6 +99,18 @@ class VinylMix
     public function setVotes(int $votes): static
     {
         $this->votes = $votes;
+
+        return $this;
+    }
+
+    public function getGenre(): ?string
+    {
+        return $this->genre;
+    }
+
+    public function setGenre(string $genre): static
+    {
+        $this->genre = $genre;
 
         return $this;
     }
