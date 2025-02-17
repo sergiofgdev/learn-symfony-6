@@ -41,8 +41,8 @@ class MixController extends AbstractController
         ));
     }
 
-    #[Route('/mix/{id}', name: 'app_mix_show')]
-    public function show(VinylMix $mix)
+    #[Route('/mix/{slug}', name: 'app_mix_show')]
+    public function show(VinylMix $mix):Response
     {
         //Esto no es necesario si pasamos como argumento VinylMix, es util cuando necesitamos un simple objeto, siempre
         //que el wildcard coincida con lo que hay en la bd, en este caso id
@@ -53,7 +53,6 @@ class MixController extends AbstractController
 //        }
 
 
-//        dd($mix);
         return $this->render('mix/show.html.twig', [
             'mix' => $mix
         ]);
@@ -74,6 +73,6 @@ class MixController extends AbstractController
         }
         $this->entityManager->flush(); //Doctrine guarda los objetos
         $this->addFlash('success','Vote counted');
-        return $this->redirectToRoute('app_mix_show', ['id' => $mix->getId()]);
+        return $this->redirectToRoute('app_mix_show', ['slug' => $mix->getSlug()]);
     }
 }
