@@ -18,7 +18,7 @@ class VinylController extends AbstractController
         private bool $isDebug,
         private MixRepository $mixRepository,
         private EntityManagerInterface $entityManager,
-        private VinylMixRepository $mixMixRepository,
+        private VinylMixRepository $VinylMixRepository,
 
     )
     {}
@@ -46,9 +46,16 @@ class VinylController extends AbstractController
     {
         $genre = $slug ? u(str_replace('-', ' ', $slug))->title(true) : null;
         //Doctrine
-        //Podemos no utilizar EntitiyManager ya que VinylMixRepository es un service y podemos obtenerlo directamente de el
+
+        //EntityManagerInterface
 //        $mixRepository = $this->entityManager->getRepository(VinylMix::class);
-        $mixes = $this->mixRepository->findAll();
+//        $mixes = $mixRepository->findAll();
+//        $mixes = $this->mixRepository->findAll();
+
+        //VinylMixRepository como Servicio
+        $mixes = $this->VinylMixRepository->findAll();
+
+//        dd($mixes);
         return $this->render('vinyl/browse.html.twig', [
             'genre' => $genre,
             'mixes' => $mixes
