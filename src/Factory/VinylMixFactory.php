@@ -34,7 +34,7 @@ final class VinylMixFactory extends PersistentProxyObjectFactory
         return [
             'createdAt' => self::faker()->dateTime(),
             'genre' => self::faker()->randomElement(['Pop','Rock']),
-//            'slug' => self::faker()->text(10),
+            'slug' => self::faker()->text(10),
             'title' => self::faker()->text(25),
             'trackCount' => self::faker()->randomNumber(),
             'updatedAt' => self::faker()->dateTime(),
