@@ -14,7 +14,7 @@ class MixController extends AbstractController
 {
 
     public function __construct(
-        private VinylMixRepository $VinylMixRepository,
+        private VinylMixRepository     $VinylMixRepository,
         private EntityManagerInterface $entityManager
     )
     {
@@ -32,7 +32,7 @@ class MixController extends AbstractController
         $mix->setVotes(rand(-50, 50));
 
         $entityManager->persist($mix); //tells Doctrine to be aware of this object
-        $entityManager->flush(); //save it on the db
+        $entityManager->flush(); //save the objets Doctrine is being aware of in the DB
 
         return new Response(sprintf(
             'Mix %d is %d tracks of pure 80 heaven',
@@ -66,13 +66,14 @@ class MixController extends AbstractController
         $miReq = $request;
 //        dd($miReq);
 
-        $direction = $request->request->get('direction','up');
-        if($direction == 'up'){
-            $mix->setVotes($mix->getVotes() + 1);
-        }else{
-            $mix->setVotes($mix->getVotes() - 1);
+        $direction = $request->request->get('direction', 'up');
+        if ($direction == 'up') {
+            $mix->upVote();
+        } else {
+            $mix->downVote();
         }
         $this->entityManager->flush(); //Doctrine guarda los objetos
+        $this->addFlash('success','Vote counted');
         return $this->redirectToRoute('app_mix_show', ['id' => $mix->getId()]);
     }
 }

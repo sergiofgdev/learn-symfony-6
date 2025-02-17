@@ -103,6 +103,16 @@ class VinylMix
         return $this;
     }
 
+    public function upVote()
+    {
+        $this->votes++;
+    }
+
+    public function downVote()
+    {
+        $this->votes--;
+    }
+
     public function getGenre(): ?string
     {
         return $this->genre;
@@ -115,9 +125,10 @@ class VinylMix
         return $this;
     }
 
-    public function getVotesString(): string{
+    public function getVotesString(): string
+    {
         $prefix = ($this->votes > 0 ? '+' : '-');
-        return sprintf('%s %d',$prefix, abs($this->votes));
+        return sprintf('%s %d', $prefix, abs($this->votes));
     }
 
     public function getImageUrl(int $width): string
@@ -128,8 +139,6 @@ class VinylMix
             $width
         );
     }
-
-
 
 
 }
