@@ -15,6 +15,7 @@ class MixController extends AbstractController
 
     public function __construct(
         private VinylMixRepository $VinylMixRepository,
+        private EntityManagerInterface $entityManager
     )
     {
     }
@@ -43,7 +44,8 @@ class MixController extends AbstractController
     #[Route('/mix/{id}', name: 'app_mix_show')]
     public function show(VinylMix $mix)
     {
-        //Esto no es necesario si pasamos como argumento VinylMix, es util cuando necesitamos un simple objeto
+        //Esto no es necesario si pasamos como argumento VinylMix, es util cuando necesitamos un simple objeto, siempre
+        //que el wildcard coincida con lo que hay en la bd, en este caso id
 //        $mix = $this->VinylMixRepository->find($id);
 //
 //        if(!$mix){
@@ -70,5 +72,7 @@ class MixController extends AbstractController
         }else{
             $mix->setVotes($mix->getVotes() - 1);
         }
+        $this->entityManager->flush(); //Doctrine guarda los objetos
+        return $this->redirectToRoute('app_mix_show', ['id' => $mix->getId()]);
     }
 }
