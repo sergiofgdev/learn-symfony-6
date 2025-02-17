@@ -15,13 +15,14 @@ class VinylController extends AbstractController
 {
 
     public function __construct(
-        private bool $isDebug,
-        private MixRepository $mixRepository,
+        private bool                   $isDebug,
+        private MixRepository          $mixRepository,
         private EntityManagerInterface $entityManager,
-        private VinylMixRepository $VinylMixRepository,
+        private VinylMixRepository     $VinylMixRepository,
 
     )
-    {}
+    {
+    }
 
     #[Route('/', name: 'app_homepage')]
     public function homepage(): Response
@@ -45,7 +46,6 @@ class VinylController extends AbstractController
     public function browse(?string $slug = null): Response
     {
         $genre = $slug ? u(str_replace('-', ' ', $slug))->title(true) : null;
-        //Doctrine
 
         //EntityManagerInterface
 //        $mixRepository = $this->entityManager->getRepository(VinylMix::class);
@@ -53,7 +53,8 @@ class VinylController extends AbstractController
 //        $mixes = $this->mixRepository->findAll();
 
         //VinylMixRepository como Servicio
-        $mixes = $this->VinylMixRepository->findAll();
+//        $mixes = $this->VinylMixRepository->findAll();
+        $mixes = $this->VinylMixRepository->findAllOrderedByVotes($slug);
 
 //        dd($mixes);
         return $this->render('vinyl/browse.html.twig', [
