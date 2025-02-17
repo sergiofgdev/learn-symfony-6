@@ -23,16 +23,7 @@ class MixController extends AbstractController
     #[Route('mix/new')]
     public function new(EntityManagerInterface $entityManager): Response
     {
-        $mix = new VinylMix();
-        $mix->setTitle('Do you remember... Phil Collins?');
-        $mix->setDescription('Do you remember... Phil Collins?');
-        $genres = ['pop', 'rock'];
-        $mix->setGenre($genres[array_rand($genres)]);
-        $mix->setTrackCount(rand(5, 20));
-        $mix->setVotes(rand(-50, 50));
 
-        $entityManager->persist($mix); //tells Doctrine to be aware of this object
-        $entityManager->flush(); //save the objets Doctrine is being aware of in the DB
 
         return new Response(sprintf(
             'Mix %d is %d tracks of pure 80 heaven',
