@@ -25,29 +25,35 @@
 
         <div>
             <h2 class="mt-5">Mixes</h2>
-            <div class="row">
-                {% for mix in pagerfanta %}
-                    <a
-                            href="{{ path('app_mix_show', {
-                                slug:mix.slug
-                            }) }}"
-                            class="col col-md-4">
-                        <div class="mixed-vinyl-container p-3 text-center">
-                            <img src="{{ mix.imageUrl(300) }}" alt="Mix album cover">
-                            <p class="mt-2"><strong>{{ mix.title }}</strong></p>
-                            <span>{{ mix.trackCount }} Tracks</span>
-                            |
-                            <span>{{ mix.genre }}</span>
-                            |
-                            <span>{{ mix.createdAt | ago }}</span>
-                            <br>
-                            {{ mix.votesString }} votes
-                        </div>
-                    </a>
-                {% endfor %}
+            <turbo-frame id="mix-browse-list-{{ pagerfanta.currentPage }}" target="_top">
+                <div class="row">
+                    {% for mix in pagerfanta %}
+                        <a
+                                href="{{ path('app_mix_show', {
+                                    slug:mix.slug
+                                }) }}"
+                                class="col col-md-4">
+                            <div class="mixed-vinyl-container p-3 text-center">
+                                <img src="{{ mix.imageUrl(300) }}" alt="Mix album cover">
+                                <p class="mt-2"><strong>{{ mix.title }}</strong></p>
+                                <span>{{ mix.trackCount }} Tracks</span>
+                                |
+                                <span>{{ mix.genre }}</span>
+                                |
+                                <span>{{ mix.createdAt | ago }}</span>
+                                <br>
+                                {{ mix.votesString }} votes
+                            </div>
+                        </a>
+                    {% endfor %}
 
-                {{ pagerfanta(pagerfanta) }}
-            </div>
+                    {% if pagerfanta.hasNextPage %}
+                        <turbo-frame id="mix-browse-list-{{ pagerfanta.nextPage }}"
+                                     src="{{ pagerfanta_page_url(pagerfanta, pagerfanta.nextPage) }}" loading="lazy"
+                                     target="_top"></turbo-frame>
+                    {% endif %}
+                </div>
+            </turbo-frame>
         </div>
     </div>
 {% endblock %}
