@@ -40,9 +40,18 @@ class MixController extends AbstractController
     }
 
     #[Route('/mix/{id}',name: 'app_mix_show')]
-    public function show($id)
+    public function show(VinylMix $mix)
     {
-        $mix = $this->VinylMixRepository->find($id);
+        //Esto no es necesario si pasamos como argumento VinylMix, es util cuando necesitamos un simple objeto
+//        $mix = $this->VinylMixRepository->find($id);
+//
+//        if(!$mix){
+//            throw $this->createNotFoundException('Mix not found');
+//        }
+
+
+
+
 //        dd($mix);
         return $this->render('mix/show.html.twig', [
             'mix' => $mix
